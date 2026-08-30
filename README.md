@@ -173,25 +173,6 @@ The `models/`, `figures/`, and `results/` already in this repo are the
 outputs from the run described below, so you can explore results
 immediately without retraining anything.
 
-## Limitations & natural next steps
-
-- **No real limit order book.** Impact is a stylized function of trade size
-  vs. bar volume, not simulated against actual bid/ask depth. Swapping in
-  **ABIDES** (mentioned in the original project brief) for a multi-agent
-  exchange simulation would be the natural next step for realism, at the
-  cost of much slower training.
-- **Impact constants are illustrative,** not fit to real transaction-cost
-  data. If you have fills from a real broker, calibrate `ETA`/`GAMMA`/`BETA`
-  against realized cost vs. participation rate before trusting absolute bps.
-- **No alpha/momentum signal** — this is deliberately a pure execution
-  problem, not a "should I trade" problem, consistent with the original
-  framing.
-- **DQN comparison** wasn't run — the brief mentioned PPO or DQN; PPO was
-  used throughout for its stability. A discretized-action DQN baseline would
-  be a reasonable comparison to add.
-- **Single-day episodes only.** Extending to multi-day execution
-  (institutional orders often span several days) would need inventory
-  carried across episodes and an overnight risk term.
 
 ## File manifest
 
