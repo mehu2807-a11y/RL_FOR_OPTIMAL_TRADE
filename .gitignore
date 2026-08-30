@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# generated locally by prep_data.py / fetch_yfinance.py -- not redistributed
+# (source dataset's license isn't clear; regenerate locally instead)
+data/*.parquet
+
+# clone target for prep_data.py's default SRC_DIR
+/nse_repo/
