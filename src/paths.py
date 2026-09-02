@@ -1,5 +1,3 @@
-"""Central path definitions -- everything is relative to the repo root, so
-the project runs the same way regardless of where it's cloned."""
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent  # repo root (src/ is one level down)
