@@ -1,20 +1,13 @@
 import pandas as pd
 import numpy as np
 import os
-
 from paths import ROOT, DATA_DIR
-
-# Clone https://github.com/ShabbirHasan1/NSE-Data next to this repo (or point
-# SRC_DIR at wherever you put it) -- see README's "Data" section for why this
-# source is used instead of yfinance directly, and for a sparse-checkout
-# command that avoids pulling the whole (large) repo.
 SRC_DIR = os.environ.get(
     "NSE_DATA_SRC_DIR",
     str(ROOT.parent / "nse_repo" / "NSE Minute Data" / "NSE_Stocks_Data"),
 )
 OUT_DIR = DATA_DIR
 os.makedirs(OUT_DIR, exist_ok=True)
-
 TICKERS = {
     "RELIANCE": "RELIANCE__EQ__NSE__NSE__MINUTE.csv",
     "HDFCBANK": "HDFCBANK__EQ__NSE__NSE__MINUTE.csv",
@@ -22,14 +15,11 @@ TICKERS = {
     "INFY": "INFY__EQ__NSE__NSE__MINUTE.csv",
     "SBIN": "SBIN__EQ__NSE__NSE__MINUTE.csv",
 }
-
 BAR = "5min"
 SESSION_START = "09:15"
 SESSION_END = "15:29"   # last 5-min bar covers 15:25-15:30
 EXPECTED_BARS = 75
-
 all_days_summary = []
-
 for tkr, fname in TICKERS.items():
     path = os.path.join(SRC_DIR, fname)
     df = pd.read_csv(path, parse_dates=["timestamp"])
