@@ -16,8 +16,8 @@ def run_policy(policy_fn, n_episodes=200, seed=0):
         while not done:
             a = policy_fn(obs, env)
             obs, r, done, _, info = env.step(a)
-            total_cost += info["cost_bps"] * (info["qty"])  # weight by qty for a clean re-aggregate
-        costs.append(total_cost / env.Q)  # back to bps of total order (approx, qty-weighted)
+            total_cost += info["cost_bps"] * (info["qty"]) 
+            costs.append(total_cost / env.Q)
     return np.array(costs)
 
 def dump_all(obs, env):
