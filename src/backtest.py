@@ -6,7 +6,7 @@ from market_data import MarketData, TICKERS, BARS_PER_DAY
 from execution_env import ExecutionEnv
 from paths import MODELS_DIR, RESULTS_DIR
 
-FIXED_ORDER_PCT = 0.05  # headline comparison: liquidate 5% of trailing ADV20 in a single day
+FIXED_ORDER_PCT = 0.05 
 
 AGENTS = {
     "ppo_urgent": (str(MODELS_DIR / "ppo_execution_urgent.zip"), 15.0),
