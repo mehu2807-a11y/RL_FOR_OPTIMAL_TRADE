@@ -5,7 +5,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from stable_baselines3 import PPO
-
 from market_data import MarketData, TICKERS, BARS_PER_DAY
 from execution_env import ExecutionEnv
 from backtest import twap_action, vwap_action, FIXED_ORDER_PCT, AGENTS
@@ -13,11 +12,8 @@ from paths import FIGURES_DIR, RESULTS_DIR
 
 OUT_DIR = str(FIGURES_DIR)
 os.makedirs(OUT_DIR, exist_ok=True)
-
 md = MarketData()
 models = {name: PPO.load(path) for name, (path, _lam) in AGENTS.items()}
-
-# ---------- Figure 1: average liquidation trajectories ----------
 env = ExecutionEnv(md, split="test")
 rng = np.random.default_rng(7)
 sample_pairs = []
@@ -25,7 +21,6 @@ for tkr in TICKERS:
     dates = md.test_days[tkr]
     chosen = rng.choice(len(dates), size=40, replace=False)
     sample_pairs += [(tkr, dates[i]) for i in chosen]
-
 policy_names = ["twap", "vwap", "ppo_patient", "ppo_moderate", "ppo_urgent"]
 traj = {p: [] for p in policy_names}
 for tkr, date in sample_pairs:
@@ -62,8 +57,6 @@ ax.grid(alpha=0.3)
 fig.tight_layout()
 fig.savefig(os.path.join(OUT_DIR, "liquidation_trajectory.png"), dpi=150)
 print("saved liquidation_trajectory.png")
-
-# ---------- Figure 2: efficient frontier (mean vs std of raw shortfall) ----------
 results = pd.read_csv(str(RESULTS_DIR / "backtest_results.csv"))
 frontier = results.groupby("policy")["cost_bps"].agg(["mean", "std"])
 
@@ -83,8 +76,6 @@ ax.grid(alpha=0.3)
 fig.tight_layout()
 fig.savefig(os.path.join(OUT_DIR, "efficient_frontier.png"), dpi=150)
 print("saved efficient_frontier.png")
-
-# ---------- Figure 3: shortfall distributions ----------
 fig, ax = plt.subplots(figsize=(9, 5.5))
 data = [results[results.policy == p]["cost_bps"].clip(-150, 400) for p in order]
 bp = ax.boxplot(data, tick_labels=[labels.get(p, p) for p in order], showfliers=False, patch_artist=True)
