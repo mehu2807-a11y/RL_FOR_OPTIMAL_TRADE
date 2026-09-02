@@ -1,17 +1,3 @@
-"""
-Backtest all policies on the held-out 2020 test set, using an IDENTICAL
-order (same ticker, date, and order size) for every policy so comparisons
-are paired and fair.
-
-Headline comparison is the classic Almgren-Chriss efficient-frontier view:
-mean vs. std of RAW implementation shortfall (cost_bps) across test episodes.
-Raw shortfall is lambda-independent (it's just realized execution cost), so
-it's the right axis for comparing agents trained at different risk-aversion
-levels against each other and against TWAP/VWAP on equal footing. The shaped
-risk-adjusted objective (cost + risk penalty) is also reported per-agent
-using that agent's OWN training lambda, as a secondary diagnostic of whether
-each agent is doing well on the thing it was actually optimized for.
-"""
 import numpy as np
 import pandas as pd
 from stable_baselines3 import PPO
