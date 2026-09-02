@@ -1,28 +1,12 @@
-"""
-Shared market-data utilities for the execution RL project.
-
-Loads the cleaned 5-min bar parquet files produced by prep_data.py and builds,
-for every (ticker, date):
-  - a trailing 20-day average daily volume (ADV20)   [uses only PRIOR days]
-  - a trailing 10-day realized volatility of daily returns (VOL10) [uses only PRIOR days]
-  - a per-ticker historical intraday volume profile (75 bins), estimated from
-    TRAIN days only, used both as the VWAP schedule and as an RL state feature.
-
-No feature ever uses same-day-or-later information, so there is no lookahead
-leakage between what the agent/benchmarks can see and what they are trading.
-"""
 import pandas as pd
 import numpy as np
 import os
-
 from paths import DATA_DIR
 TICKERS = ["RELIANCE", "HDFCBANK", "ICICIBANK", "INFY", "SBIN"]
 BARS_PER_DAY = 75
 TRAIN_TEST_CUTOFF = "2020-01-01"   # dates >= cutoff are test (out-of-sample)
 ADV_WINDOW = 20
 VOL_WINDOW = 10
-
-
 class MarketData:
     def __init__(self):
         self.bars = {}          # ticker -> DataFrame indexed by timestamp (5-min bars)
@@ -81,8 +65,6 @@ class MarketData:
         days = self.train_days[ticker] if split == "train" else self.test_days[ticker]
         date = days[rng.integers(len(days))]
         return ticker, date
-
-
 if __name__ == "__main__":
     md = MarketData()
     for t in TICKERS:
